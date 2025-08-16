@@ -3,11 +3,9 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from recipes.models import (
-    Favorite,
     Ingredient,
     Recipe,
     RecipeIngredient,
-    ShoppingCart,
     Tag,
 )
 from api.serializers.base_serializers import Base64ImageField
@@ -54,7 +52,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only=True
     )
     is_favorited = serializers.BooleanField(read_only=True, default=False)
-    is_in_shopping_cart = serializers.BooleanField(read_only=True, default=False)
+    is_in_shopping_cart = serializers.BooleanField(
+        read_only=True, default=False
+    )
 
     def get_author(self, obj):
         from api.serializers.user_serializers import UserSerializer
@@ -69,7 +69,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
-    tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(), many=True
+    )
     ingredients = RecipeIngredientCreateSerializer(many=True)
     image = Base64ImageField()
 
@@ -84,14 +86,20 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if request and request.method == 'PATCH':
             if 'ingredients' not in self.initial_data:
-                raise serializers.ValidationError({'ingredients': ['Обязательное поле.']})
+                raise serializers.ValidationError(
+                    {'ingredients': ['Обязательное поле.']}
+                )
             if 'tags' not in self.initial_data:
-                raise serializers.ValidationError({'tags': ['Обязательное поле.']})
+                raise serializers.ValidationError(
+                    {'tags': ['Обязательное поле.']}
+                )
         return data
 
     def validate_ingredients(self, ingredients):
         if not ingredients:
-            raise serializers.ValidationError('Необходимо добавить хотя бы один ингредиент')
+            raise serializers.ValidationError(
+                'Необходимо добавить хотя бы один ингредиент'
+            )
         ingredient_ids = [ingredient['id'].id for ingredient in ingredients]
         if len(ingredient_ids) != len(set(ingredient_ids)):
             raise serializers.ValidationError('Ингредиенты повторяются')
@@ -99,7 +107,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
     def validate_tags(self, tags):
         if not tags:
-            raise serializers.ValidationError('Необходимо добавить хотя бы один тег')
+            raise serializers.ValidationError(
+                'Необходимо добавить хотя бы один тег'
+            )
         if len(tags) != len(set(tags)):
             raise serializers.ValidationError('Теги не должны повторяться')
         return tags
@@ -119,7 +129,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
-        recipe = Recipe.objects.create(author=self.context['request'].user, **validated_data)
+        recipe = Recipe.objects.create(
+            author=self.context['request'].user, **validated_data
+        )
         recipe.tags.set(tags)
         self.create_ingredients(recipe, ingredients)
         return recipe
@@ -133,7 +145,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def to_representation(self, instance):
-        serializer = RecipeSerializer(instance, context={'request': self.context.get('request')})
+        serializer = RecipeSerializer(
+            instance, context={'request': self.context.get('request')}
+        )
         return serializer.data
 
 

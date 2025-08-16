@@ -22,7 +22,9 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         request = self.context.get('request')
-        return RecipeMinifiedSerializer(instance.recipe, context={'request': request}).data
+        return RecipeMinifiedSerializer(
+            instance.recipe, context={'request': request}
+        ).data
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
@@ -39,7 +41,9 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         request = self.context.get('request')
-        return RecipeMinifiedSerializer(instance.recipe, context={'request': request}).data
+        return RecipeMinifiedSerializer(
+            instance.recipe, context={'request': request}
+        ).data
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
@@ -56,9 +60,13 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data['user'] == data['author']:
-            raise serializers.ValidationError('Нельзя подписаться на самого себя')
+            raise serializers.ValidationError(
+                'Нельзя подписаться на самого себя'
+            )
         return data
 
     def to_representation(self, instance):
         request = self.context.get('request')
-        return UserWithRecipesSerializer(instance.author, context={'request': request}).data
+        return UserWithRecipesSerializer(
+            instance.author, context={'request': request}
+        ).data
