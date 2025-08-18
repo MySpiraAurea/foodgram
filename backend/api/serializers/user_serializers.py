@@ -1,7 +1,8 @@
 from rest_framework import serializers
+from users.models import Subscription, User
+
 from .base_serializers import Base64ImageField
 from .recipe_serializers import RecipeMinifiedSerializer
-from users.models import User, Subscription
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -1,11 +1,9 @@
-from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
-
-from recipes.models import Favorite, ShoppingCart
-from users.models import Subscription
-
 from api.serializers.recipe_serializers import RecipeMinifiedSerializer
 from api.serializers.user_serializers import UserWithRecipesSerializer
+from recipes.models import Favorite, ShoppingCart
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+from users.models import Subscription
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

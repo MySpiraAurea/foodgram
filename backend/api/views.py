@@ -1,39 +1,25 @@
+from api.serializers import (FavoriteSerializer, IngredientSerializer,
+                             RecipeCreateSerializer, RecipeSerializer,
+                             SetAvatarSerializer, SetPasswordSerializer,
+                             ShoppingCartSerializer, SubscriptionSerializer,
+                             TagSerializer, UserSerializer,
+                             UserWithRecipesSerializer)
 from django.db.models import Count, Exists, OuterRef, Prefetch, Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet as DjoserUserViewSet
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                            ShoppingCart, Tag)
 from rest_framework import filters, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-from recipes.models import (
-    Favorite,
-    Ingredient,
-    Recipe,
-    RecipeIngredient,
-    ShoppingCart,
-    Tag,
-)
 from users.models import Subscription, User
 
 from .filters import IngredientFilter, RecipeFilter
 from .mixins import CollectionActionMixin, SubscriptionActionMixin
 from .pagination import CustomPagination
 from .permissions import IsAuthorOrReadOnly
-from api.serializers import (
-    FavoriteSerializer,
-    IngredientSerializer,
-    RecipeCreateSerializer,
-    RecipeSerializer,
-    SetAvatarSerializer,
-    SetPasswordSerializer,
-    ShoppingCartSerializer,
-    SubscriptionSerializer,
-    TagSerializer,
-    UserSerializer,
-    UserWithRecipesSerializer,
-)
 
 
 class UserViewSet(DjoserUserViewSet, SubscriptionActionMixin):
