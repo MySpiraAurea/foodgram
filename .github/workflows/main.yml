@@ -153,10 +153,10 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd projects/foodgram
-            docker compose -f docker-compose.production.yml pull
-            docker compose -f docker-compose.production.yml down
-            docker compose -f docker-compose.production.yml up -d
-            docker image prune -af
+            sudo docker compose -f docker-compose.production.yml pull
+            sudo docker compose -f docker-compose.production.yml down
+            sudo docker compose -f docker-compose.production.yml up -d
+            sudo docker image prune -af
 
   send_message:
     runs-on: ubuntu-latest
