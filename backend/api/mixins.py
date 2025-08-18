@@ -46,7 +46,7 @@ def delete_relation(request, obj_id, model_class, user_field='user',
     if not deleted:
         return Response(
             {'error': error_not_found or 'Отношение не найдено'},
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_404_NOT_FOUND
         )
 
     return Response(status=status.HTTP_204_NO_CONTENT)

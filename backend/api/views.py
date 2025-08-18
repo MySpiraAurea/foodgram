@@ -21,7 +21,7 @@ from .filters import IngredientFilter, RecipeFilter
 from .mixins import CollectionActionMixin, SubscriptionActionMixin
 from .pagination import CustomPagination
 from .permissions import IsAuthorOrReadOnly
-from .serializers import (
+from api.serializers import (
     FavoriteSerializer,
     IngredientSerializer,
     RecipeCreateSerializer,
