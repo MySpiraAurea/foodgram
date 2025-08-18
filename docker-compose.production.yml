@@ -34,7 +34,7 @@ services:
     image: myspiraaurea/foodgram_gateway:latest
     restart: always
     ports:
-      - 80:80
+      - 8080:80
     volumes:
       - ./frontend/build:/usr/share/nginx/html/
       - ./docs/:/usr/share/nginx/html/api/docs/
