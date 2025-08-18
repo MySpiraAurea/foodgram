@@ -5,7 +5,6 @@ from core.constants import (
     MAX_RECIPE_NAME_LENGTH,
     MAX_SLUG_LENGTH,
     MAX_TAG_LENGTH,
-    MAX_NAME_LENGTH,
 )
 from users.models import User
 
@@ -27,7 +26,7 @@ class Tag(models.Model):
 class Ingredient(models.Model):
     """Модель ингредиента для рецептов."""
 
-    name = models.CharField('Название', max_length=MAX_NAME_LENGTH)
+    name = models.CharField('Название', max_length=150)
     measurement_unit = models.CharField('Единица измерения', max_length=64)
 
     class Meta:
