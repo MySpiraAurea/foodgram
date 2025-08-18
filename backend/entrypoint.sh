@@ -1,10 +1,9 @@
 #!/bin/bash
 
-set -e  # Останавливаем скрипт при любой ошибке
+set -e
 
 echo "Ожидание подключения к базе данных..."
 
-# Цикл ожидания подключения к PostgreSQL
 while ! python << END
 import sys
 import psycopg2
@@ -28,12 +27,10 @@ do
   sleep 2
 done
 
-# Теперь запускаем миграции и сборку статики
 echo "Запуск миграций..."
 python manage.py migrate --noinput
 
 echo "Сборка статики..."
 python manage.py collectstatic --noinput
 
-# Запуск основной команды (gunicorn, runserver и т.д.)
 exec "$@"
